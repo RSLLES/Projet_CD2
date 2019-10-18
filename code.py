@@ -29,7 +29,7 @@ Zplan = planEnM(X,Y)
 fig = plt.figure()
 ax = Axes3D(fig)
 ax.plot_surface(X, Y, Zf, cmap='winter')
-ax.plot_surface(X, Y, Zplan)
+ax.plot_surface(X, Y, Zplan, cmap='spring')
 
 #ax.quiver3D(x0,y0,z0,gradf(x0,y0)[0], gradf(x0,y0)[1], 0, color="red")
 plt.show()
