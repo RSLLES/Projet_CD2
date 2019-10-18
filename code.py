@@ -2,6 +2,26 @@ from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
 import matplotlib.pyplot as plt
 
+
+def find_seed(g, c=0, eps=2**(-26)):
+    """Methode renvoyant un réel t de [0,1] tq g(t) = c.
+    La fonction retourne une valueError si jamais (g(0)-c)(g(1)-c) > 0"""
+    if (g(0)-c)(g(1)-c) > 0:
+        raise ValueError("Erreur : aucune garantie qu'un t tel que g(t) = 0 existe !")
+    #On fait de la dichotomie car il faut travailler avec le eps
+    return dicho(lambda t : g(t) - c,0,1,eps)
+
+def dicho(g,a,b,eps):
+    """Méthode récursive utilisant le principe de la dichotomie pour exploiter le TVI"""
+    m = a+b/2
+    if b-a <= 2*eps:
+        return m
+    elif g(a)*g(m) <= 0:
+        return dicho(g,a,m,eps)
+    else:
+        return dicho(g,m,b,eps)
+
+
 def f(x, y):
     """Fonction f avec laquelle on travaille"""
     return np.power(x,2) + np.power(y,2)
