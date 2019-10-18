@@ -3,10 +3,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def f(x, y):
+    """Fonction f avec laquelle on travaille"""
     return np.power(x,2) + np.power(y,2)
 
 def grad(f):
-    """Retourne une fonction donnant le gradient de f"""
+    """Retourne la fonction grad(f)"""
     h = 10**(-5)
     return lambda x,y : np.array((f(x+h,y)-f(x,y), f(x,y+h)-f(x,y)))/h
 
@@ -15,21 +16,21 @@ def creerPlan(f, x0, y0):
     gradFEnM = grad(f)(x0,y0)
     return lambda x,y : gradFEnM[0]*(x-x0) + gradFEnM[1]*(y-y0) + f(x0,y0)
 
+
+#Création du graphe en 3D
 domain_x = np.linspace(-5, 5)   
 domain_y = np.linspace(-5, 5)
-
 X, Y = np.meshgrid(domain_x, domain_y)
-Zf = f(X, Y)
-
-x0,y0 = 2,2
-z0 = f(x0,y0)
-planEnM = creerPlan(f, x0, y0)
-Zplan = planEnM(X,Y)
-
 fig = plt.figure()
 ax = Axes3D(fig)
-ax.plot_surface(X, Y, Zf, cmap='winter')
-ax.plot_surface(X, Y, Zplan, cmap='spring')
 
-#ax.quiver3D(x0,y0,z0,gradf(x0,y0)[0], gradf(x0,y0)[1], 0, color="red")
+#On trace f
+ax.plot_surface(X, Y, f(X, Y), cmap='winter')
+
+#Test de tracé du plan tg en un point (x0,y0)
+x0,y0 = 2,2
+planEnM = creerPlan(f, x0, y0)
+ax.plot_surface(X, Y, planEnM(X,Y), cmap='spring')
+
+#Affichage
 plt.show()
